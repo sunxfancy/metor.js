@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "removeComments": true,
+        "outDir": "./dist/",
+        "target": "es5",
+        "moduleResolution": "node",
+        "experimentalDecorators": false,
+        "emitDecoratorMetadata": false,
+        "strictNullChecks": true,
+        "baseUrl": ".",
+        "jsx": "react",
+        "lib": [
+            "dom",
+            "es2016"
+        ]
+    }
+}

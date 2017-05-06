@@ -1,0 +1,17 @@
+{
+  "name": "metor",
+  "version": "0.1.0",
+  "description": "A new components based javascript front-end framework",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --color --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sxf",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-loader": "^2.0.3",
+    "typescript": "^2.3.2",
+    "webpack": "^2.5.0"
+  }
+}
