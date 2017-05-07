@@ -8,7 +8,9 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "bundle.js"
+        filename: "metor.bundle.js",
+        library: 'Metor',
+        libraryTarget: 'umd'
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
@@ -23,6 +25,7 @@ module.exports = {
                     path.resolve(__dirname, "test")
                 ],
                 exclude: [
+                    /dist/,
                     /node_modules/,
                 ],
                 use: [

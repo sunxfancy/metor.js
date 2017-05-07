@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
         "removeComments": true,
-        "outDir": "./dist/",
+        "outDir": "./types/",
         "target": "es5",
+        "declaration": false,
         "moduleResolution": "node",
         "experimentalDecorators": false,
         "emitDecoratorMetadata": false,
