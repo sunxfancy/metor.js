@@ -1,32 +1,62 @@
 
 var MetorDOM = Metor.MetorDOM;
+var Property = Metor.Property;
 
-class App extends Metor.Component {
-    constructor() {
-        super();
-        this.init();
-    }
-
-    onClick() {
-        console.log('click button');
-    }
-
+class Item extends Metor.Component {
     render() {
+        console.log(this.props.text.data);
         return {
-            name: 'div', 
-            _style: "width: 100px; height: 100px; background: blue;",
+            name: 'h2',
             children: [
-                {
-                    name: 'button', 
-                    children: ['点我'],
-                    onClick: this.onClick.bind(this)
-                }
+                '你好，'+this.props.metor, 
+                {name: 'br'}, 
+                this.props.text.data
             ]
         }
     }
 }
 
 
-MetorDOM.replace_element(
-    document.getElementById('app'),
-    MetorDOM.render(new App().render()));
+class App extends Metor.Component {
+    constructor() {
+        super();
+        this.text = new Property("");
+        this.text.onChange = this.onChange.bind(this);
+    }
+
+    init() {
+        console.log("App mount");
+        this.text = "XXX";
+    }
+
+    onClick() {
+        this.text.data = '';
+        console.log('click button');
+    }
+
+    onChange(value) {
+        console.log(value);
+    }
+
+    render() {
+        return {
+            name: 'div', 
+            _style: "width: 300px; height: 200px; background: blue;",
+            children: [
+                {
+                    name: 'button', 
+                    children: ['点我清除'],
+                    _onclick: this.onClick.bind(this)
+                },
+                {
+                    name: 'input',
+                    bind: this.text
+                },
+                new Item({metor: 'Metor', text: this.text})
+            ]
+        }
+    }
+}
+
+
+MetorDOM.bootstrap('app', new App());
