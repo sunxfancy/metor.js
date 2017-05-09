@@ -1,6 +1,7 @@
 
 var MetorDOM = Metor.MetorDOM;
 var Property = Metor.Property;
+var testDom = Metor.dom;
 
 class Item extends Metor.Component {
     render() {
@@ -58,5 +59,4 @@ class App extends Metor.Component {
     }
 }
 
-
-MetorDOM.bootstrap('app', new App());
+MetorDOM.bootstrap('app', testDom);

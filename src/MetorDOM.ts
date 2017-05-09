@@ -2,6 +2,8 @@
 import {Component} from './Component'
 import {Property} from './Property'
 
+const default_label = ['class', 'style', 'id', 'for', 'type'];
+
 export class MetorDOM {
     public static render(json: any): HTMLElement|Text {
         if (!json) return document.createTextNode("");
@@ -21,6 +23,8 @@ export class MetorDOM {
                     let name = i.substring(1);
                     if (name.substr(0,2) == 'on') node[name] = json[i];
                     else node.setAttribute(name, json[i]);
+                } else if (default_label.indexOf(i) != -1) {
+                    node.setAttribute(i, json[i]);
                 }
             }
             if (json.children)
@@ -28,7 +32,7 @@ export class MetorDOM {
                     node.appendChild(MetorDOM.render(i));
             return node;
         } else { // 自定义标签
-            let obj = json as Component<any, any>;
+            let obj = json as Component<any>;
             let node = obj.render();
             let ans = MetorDOM.render(node);
             obj.html_node = ans;
@@ -52,7 +56,7 @@ export class MetorDOM {
         return node.parentNode!.replaceChild(newnode, node);
     }
 
-    public static bootstrap(id: string, c: Component<any, any>) {
+    public static bootstrap(id: string, c: Component<any>) {
         let node = document.getElementById(id);
         if (!node) return console.warn('Element can not be found');
         MetorDOM.replace_element(
