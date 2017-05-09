@@ -60,3 +60,7 @@ class App extends Metor.Component {
 }
 
 MetorDOM.bootstrap('app', testDom);
+
+MetorDOM.replace_element(
+    document.getElementById('hello').childNodes[0], 
+    MetorDOM.render('Hello'));

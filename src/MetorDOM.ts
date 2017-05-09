@@ -2,14 +2,14 @@
 import {Component} from './Component'
 import {Property} from './Property'
 
-const default_label = ['class', 'style', 'id', 'for', 'type'];
+const default_label = ['class', 'style', 'id', 'for', 'type', 'href', 'src', 'onclick'];
 
 export class MetorDOM {
     public static render(json: any): HTMLElement|Text {
         if (!json) return document.createTextNode("");
         if (typeof(json) == 'string') 
             return document.createTextNode(json);
-        if (json.name) {  // html 标签
+        if (!(json instanceof Component)) {  // html 标签
             let node = document.createElement(json.name);
             
             if (json.name == 'input' && json.bind) {
@@ -19,12 +19,10 @@ export class MetorDOM {
             }
 
             for (var i in json) {
-                if (i.charAt(0) == '_') {
-                    let name = i.substring(1);
+                if (i.charAt(0) == '_' || default_label.indexOf(i) != -1) {
+                    let name = i.charAt(0) == '_' ? i.substring(1) : i;
                     if (name.substr(0,2) == 'on') node[name] = json[i];
                     else node.setAttribute(name, json[i]);
-                } else if (default_label.indexOf(i) != -1) {
-                    node.setAttribute(i, json[i]);
                 }
             }
             if (json.children)
@@ -33,10 +31,10 @@ export class MetorDOM {
             return node;
         } else { // 自定义标签
             let obj = json as Component<any>;
-            let node = obj.render();
+            let node = obj.renderDOM();
             let ans = MetorDOM.render(node);
-            obj.html_node = ans;
-            if (obj.init) obj.init(); 
+            obj.html_node = ans as HTMLElement;
+            if (obj.mount) obj.mount(); 
             return ans;
         }
     }
@@ -52,8 +50,12 @@ export class MetorDOM {
         return node.parentNode.replaceChild(renamed, node);
     }
 
-    public static replace_element(node: HTMLElement, newnode: Node) {
+    public static replace_element(node: Node, newnode: Node) {
         return node.parentNode!.replaceChild(newnode, node);
+    }
+
+    public static remove_element(node: Node) {
+        return node.parentNode!.removeChild(node);
     }
 
     public static bootstrap(id: string, c: Component<any>) {
